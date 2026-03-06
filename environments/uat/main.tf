@@ -139,3 +139,13 @@ module "sql" {
   admin_password   = var.admin_password  # Terraform picks it from env var
   tags             = var.tags
 }
+
+# Application Insights
+module "app_insights" {
+  source            = "../../modules/app_insights"
+  rg_name           = module.resource_group.rg_name
+  location          = var.location
+  app_insights_name = var.app_insights_name
+  workspace_id      = module.log_analytics.workspace_id
+  tags              = var.tags
+}

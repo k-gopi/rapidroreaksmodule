@@ -91,3 +91,5 @@ kv_name = "rapidrore-uat-kv1234"
 sql_server_name = "rapidrore-uat-sql"
 database_name   = "rapidrore-uat-db"
 admin_user      = "sqladmin"
+# application_insights module variable
+app_insights_name             = "rapidrore-uat-ai"

@@ -123,3 +123,7 @@ variable "admin_password" {
   type      = string
   sensitive = true
 }
+variable "app_insights_name" {
+  description = "Application Insights name"
+  type        = string
+}
