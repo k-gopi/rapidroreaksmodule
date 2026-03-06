@@ -63,3 +63,10 @@ nsg_rules = [
 # Route Table
 # -----------------------------
 route_table_name = "rapidrore-uat-rt"
+
+# Private DNS module variables
+# Private DNS module variables
+private_dns_zone_name   = "rapidrore-uat.private"
+
+#loganalytics module variable
+workspace_name = "rapidrore-uat-law"

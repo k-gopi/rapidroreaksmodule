@@ -50,3 +50,26 @@ module "route_table" {
   tags             = var.tags
   subnets          = [for s in module.subnets.subnets : { id = s.id, name = s.name }]
 }
+
+module "private_dns" {
+  source                = "../../modules/private_dns"
+  project_name          = var.project_name
+  environment           = var.environment
+  rg_name               = module.resource_group.rg_name
+  private_dns_zone_name = var.private_dns_zone_name
+  virtual_network_ids   = [module.vnet.vnet_id]
+  tags                  = var.tags
+}
+
+module "log_analytics" {
+  source         = "../../modules/log_analytics"
+
+  project_name   = var.project_name
+  environment    = var.environment
+  workspace_name = var.workspace_name
+
+  location       = var.location
+  rg_name        = module.resource_group.rg_name
+
+  tags           = var.tags
+}

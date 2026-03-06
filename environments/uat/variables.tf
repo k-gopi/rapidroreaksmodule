@@ -69,3 +69,18 @@ variable "nsg_rules" {
 variable "route_table_name" {
   type = string
 }
+# -----------------------------
+# private_dns
+# -----------------------------
+variable "private_dns_zone_name" {
+  type = string
+}
+
+variable "virtual_network_ids" {
+  type    = list(string)
+  default = []
+}
+
+variable "workspace_name" {
+  type = string
+}
