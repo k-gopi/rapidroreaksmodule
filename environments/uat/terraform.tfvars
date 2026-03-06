@@ -59,3 +59,7 @@ nsg_rules = [
     destination_address_prefix = "*"
   }
 ]
+# -----------------------------
+# Route Table
+# -----------------------------
+route_table_name = "rapidrore-uat-rt"

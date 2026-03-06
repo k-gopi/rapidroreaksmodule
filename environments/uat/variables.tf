@@ -62,3 +62,10 @@ variable "nsg_rules" {
   }))
   default = []
 }
+
+# -----------------------------
+# Route Table
+# -----------------------------
+variable "route_table_name" {
+  type = string
+}

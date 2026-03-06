@@ -36,3 +36,17 @@ module "nsg" {
   rg_name      = module.resource_group.rg_name
   tags         = var.tags
 }
+
+# -----------------------------
+# Route Table
+# -----------------------------
+module "route_table" {
+  source           = "../../modules/route_table"
+  project_name     = var.project_name
+  environment      = var.environment
+  route_table_name = var.route_table_name
+  location         = var.location
+  rg_name          = module.resource_group.rg_name
+  tags             = var.tags
+  subnets          = [for s in module.subnets.subnets : { id = s.id, name = s.name }]
+}
