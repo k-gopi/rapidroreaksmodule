@@ -128,3 +128,14 @@ module "keyvault" {
   object_id = var.object_id        # from environment variable TF_VAR_object_id
   tags      = var.tags
 }
+
+module "sql" {
+  source           = "../../modules/sql"
+  sql_server_name  = var.sql_server_name
+  database_name    = var.database_name
+  rg_name          = module.resource_group.rg_name
+  location         = var.location
+  admin_user       = var.admin_user
+  admin_password   = var.admin_password  # Terraform picks it from env var
+  tags             = var.tags
+}

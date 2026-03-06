@@ -1,6 +1,6 @@
 project_name = "rapidrore"
 environment  = "uat"
-location     = "East US"
+location     = "centralindia"
 rg_name      = "rapidrore-uat-rg"
 
 tags = {
@@ -85,4 +85,9 @@ identity_name = "rapidrore-uat-identity"
 acr_name = "rapidroreuatacr"
 
 # keyvault module variable
-kv_name = "rapidrore-uat-kv"
+kv_name = "rapidrore-uat-kv1234"
+
+# sql module variable
+sql_server_name = "rapidrore-uat-sql"
+database_name   = "rapidrore-uat-db"
+admin_user      = "sqladmin"

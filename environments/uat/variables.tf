@@ -107,3 +107,19 @@ variable "kv_name" {
   description = "Name of the Key Vault"
   type        = string
 }
+variable "sql_server_name" {
+  type = string
+}
+
+variable "database_name" {
+  type = string
+}
+
+variable "admin_user" {
+  type = string
+}
+
+variable "admin_password" {
+  type      = string
+  sensitive = true
+}
