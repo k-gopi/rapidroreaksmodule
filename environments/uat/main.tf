@@ -1,0 +1,17 @@
+module "resource_group" {
+  source       = "../../modules/resource_group"
+  rg_name      = var.rg_name
+  location     = var.location
+  project_name = var.project_name
+  environment  = var.environment
+  tags         = var.tags
+}
+
+module "vnet" {
+  source              = "../../modules/vnet"
+  vnet_name           = var.vnet_name
+  address_space       = var.address_space
+  location            = var.location
+  resource_group_name = module.resource_group.rg_name
+  tags                = var.tags
+}
