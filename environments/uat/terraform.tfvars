@@ -93,3 +93,36 @@ database_name   = "rapidrore-uat-db"
 admin_user      = "sqladmin"
 # application_insights module variable
 app_insights_name             = "rapidrore-uat-ai"
+
+# firewall module variable
+# Firewall rules
+# Firewall
+# -----------------------------
+# Firewall
+# -----------------------------
+# Firewall rules
+network_rules = [
+  {
+    name                  = "Allow-DNS"
+    priority              = 100
+    action                = "Allow"
+    rule_name             = "dns-rule"
+    protocols             = ["TCP","UDP"]
+    source_addresses      = ["10.0.0.0/16"]
+    destination_addresses = ["8.8.8.8","8.8.4.4"]
+    destination_ports     = ["53"]
+  }
+]
+
+application_rules = [
+  {
+    name             = "Allow-HTTP-HTTPS"
+    priority         = 200
+    action           = "Allow"
+    rule_name        = "http-https-rule"
+    protocol         = "Https"
+    protocol_port    = 443
+    source_addresses = ["10.0.0.0/16"]
+    target_fqdns     = ["*.google.com","*.microsoft.com"]
+  }
+]

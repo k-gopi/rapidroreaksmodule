@@ -1,3 +1,4 @@
+# Resource Group
 module "resource_group" {
   source       = "../../modules/resource_group"
   rg_name      = var.rg_name
@@ -7,145 +8,76 @@ module "resource_group" {
   tags         = var.tags
 }
 
+# Virtual Network
 module "vnet" {
   source              = "../../modules/vnet"
   vnet_name           = var.vnet_name
   address_space       = var.address_space
-  location            = var.location
+  location            = module.resource_group.location
   resource_group_name = module.resource_group.rg_name
   tags                = var.tags
 }
+
+# Subnets
 module "subnets" {
   source              = "../../modules/subnets"
   resource_group_name = module.resource_group.rg_name
-  location            = var.location
+  location            = module.resource_group.location
   vnet_name           = module.vnet.vnet_name
   subnets             = var.subnets
   tags                = var.tags
 }
-# -----------------------------
+
 # Network Security Group
-# -----------------------------
 module "nsg" {
   source       = "../../modules/nsg"
-  project_name = var.project_name        # add this
-  environment  = var.environment         # add this
+  project_name = var.project_name
+  environment  = var.environment
   nsg_name     = var.nsg_name
   nsg_rules    = var.nsg_rules
-  location     = var.location
+  location     = module.resource_group.location
   rg_name      = module.resource_group.rg_name
   tags         = var.tags
 }
 
-# -----------------------------
 # Route Table
-# -----------------------------
 module "route_table" {
   source           = "../../modules/route_table"
   project_name     = var.project_name
   environment      = var.environment
   route_table_name = var.route_table_name
-  location         = var.location
+  location         = module.resource_group.location
   rg_name          = module.resource_group.rg_name
   tags             = var.tags
-  subnets          = [for s in module.subnets.subnets : { id = s.id, name = s.name }]
+
+  # Pass list of objects directly from subnets module
+  subnets = module.subnets.subnets
 }
 
-module "private_dns" {
-  source                = "../../modules/private_dns"
-  project_name          = var.project_name
-  environment           = var.environment
-  rg_name               = module.resource_group.rg_name
-  private_dns_zone_name = var.private_dns_zone_name
-  virtual_network_ids   = [module.vnet.vnet_id]
-  tags                  = var.tags
+# Firewall Public IP
+resource "azurerm_public_ip" "firewall" {
+  name                = "rapidrore-uat-fw-pip"
+  location            = module.resource_group.location
+  resource_group_name = module.resource_group.rg_name
+  allocation_method   = "Static"
+  sku                 = "Standard"
 }
 
-module "log_analytics" {
-  source         = "../../modules/log_analytics"
+# Firewall
+module "firewall" {
+  source             = "../../modules/firewall"
+  firewall_name      = "rapidrore-uat-fw"
+  location           = module.resource_group.location
+  rg_name            = module.resource_group.rg_name
+  sku_name           = "AZFW_VNet"
+  sku_tier           = "Standard"
+  threat_intel_mode  = "Alert"
 
-  project_name   = var.project_name
-  environment    = var.environment
-  workspace_name = var.workspace_name
+  # Pick the firewall subnet ID from the list of objects
+  firewall_subnet_id = one([for s in module.subnets.subnets : s.id if s.name == "AzureFirewallSubnet"])
+  public_ip_id       = azurerm_public_ip.firewall.id
 
-  location       = var.location
-  rg_name        = module.resource_group.rg_name
-
-  tags           = var.tags
-}
-
-module "storage_account" {
-  source = "../../modules/storage_account"
-
-  project_name         = var.project_name
-  environment          = var.environment
-  storage_account_name = var.storage_account_name
-
-  location = var.location
-  rg_name  = module.resource_group.rg_name
-
-  tags = var.tags
-}
-
-module "managed_identity" {
-
-  source = "../../modules/managed_identity"
-
-  project_name  = var.project_name
-  environment   = var.environment
-  identity_name = var.identity_name
-
-  location = var.location
-  rg_name  = module.resource_group.rg_name
-
-  tags = var.tags
-}
-
-module "acr" {
-
-  source = "../../modules/acr"
-
-  project_name = var.project_name
-  environment  = var.environment
-
-  acr_name = var.acr_name
-
-  location = var.location
-  rg_name  = module.resource_group.rg_name
-
-  identity_principal_id = module.managed_identity.identity_principal_id
-
-  tags = var.tags
-}
-
-module "keyvault" {
-  source   = "../../modules/keyvault"
-
-  kv_name   = var.kv_name          # from terraform.tfvars
-  rg_name   = var.rg_name
-  location  = var.location
-  tenant_id = var.tenant_id        # from environment variable TF_VAR_tenant_id
-  object_id = var.object_id        # from environment variable TF_VAR_object_id
-  tags      = var.tags
-}
-
-module "sql" {
-  source           = "../../modules/sql"
-  sql_server_name  = var.sql_server_name
-  database_name    = var.database_name
-  rg_name          = module.resource_group.rg_name
-  location         = var.location
-  admin_user       = var.admin_user
-  admin_password   = var.admin_password  # Terraform picks it from env var
-  tags             = var.tags
-}
-
-# Application Insights
-module "app_insights" {
-  source            = "../../modules/app_insights"
-  rg_name           = module.resource_group.rg_name
-  location          = var.location
-  app_insights_name = var.app_insights_name
-  workspace_id      = module.log_analytics.workspace_id
-  tags              = var.tags
+  network_rules      = var.network_rules
+  application_rules  = var.application_rules
+  tags               = var.tags
 }

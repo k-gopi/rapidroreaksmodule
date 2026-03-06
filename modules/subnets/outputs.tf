@@ -1,13 +1,9 @@
-output "subnet_ids" {
-  description = "IDs of all subnets"
-  value       = [for s in azurerm_subnet.this : s.id]
-}
-
-output "subnet_names" {
-  description = "Names of all subnets"
-  value       = [for s in azurerm_subnet.this : s.name]
-}
 output "subnets" {
-  value       = azurerm_subnet.this
-  description = "List of subnet objects"
+  value = [
+    { name = "aks-subnet", id = azurerm_subnet.aks.id },
+    { name = "app-subnet", id = azurerm_subnet.app.id },
+    { name = "db-subnet", id = azurerm_subnet.db.id },
+    { name = "bastion-subnet", id = azurerm_subnet.bastion.id },
+    { name = "AzureFirewallSubnet", id = azurerm_subnet.firewall.id }
+  ]
 }

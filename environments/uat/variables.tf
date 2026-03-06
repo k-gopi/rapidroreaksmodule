@@ -41,9 +41,7 @@ variable "subnets" {
   }))
 }
 
-# -----------------------------
-# NSG
-# -----------------------------
+# NSG variables
 variable "nsg_name" {
   type = string
 }
@@ -63,15 +61,12 @@ variable "nsg_rules" {
   default = []
 }
 
-# -----------------------------
 # Route Table
-# -----------------------------
 variable "route_table_name" {
   type = string
 }
-# -----------------------------
-# private_dns
-# -----------------------------
+
+# Private DNS
 variable "private_dns_zone_name" {
   type = string
 }
@@ -81,19 +76,31 @@ variable "virtual_network_ids" {
   default = []
 }
 
+# Log Analytics
 variable "workspace_name" {
   type = string
 }
+
+# Storage
 variable "storage_account_name" {
   type = string
 }
+
+# Managed Identity
 variable "identity_name" {
   type = string
 }
 
+# ACR
 variable "acr_name" {
   type = string
 }
+
+# KeyVault
+variable "kv_name" {
+  type = string
+}
+
 variable "tenant_id" {
   type      = string
   sensitive = true
@@ -103,10 +110,8 @@ variable "object_id" {
   type      = string
   sensitive = true
 }
-variable "kv_name" {
-  description = "Name of the Key Vault"
-  type        = string
-}
+
+# SQL Server
 variable "sql_server_name" {
   type = string
 }
@@ -123,7 +128,37 @@ variable "admin_password" {
   type      = string
   sensitive = true
 }
+
+# Application Insights
 variable "app_insights_name" {
-  description = "Application Insights name"
-  type        = string
+  type = string
+}
+
+# Firewall
+variable "network_rules" {
+  type = list(object({
+    name                  = string
+    priority              = number
+    action                = string
+    rule_name             = string
+    protocols             = list(string)
+    source_addresses      = list(string)
+    destination_addresses = list(string)
+    destination_ports     = list(string)
+  }))
+  default = []
+}
+
+variable "application_rules" {
+  type = list(object({
+    name             = string
+    priority         = number
+    action           = string
+    rule_name        = string
+    protocol         = string
+    protocol_port    = number
+    source_addresses = list(string)
+    target_fqdns     = list(string)
+  }))
+  default = []
 }
