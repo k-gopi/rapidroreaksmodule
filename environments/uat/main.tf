@@ -23,3 +23,16 @@ module "subnets" {
   subnets             = var.subnets
   tags                = var.tags
 }
+# -----------------------------
+# Network Security Group
+# -----------------------------
+module "nsg" {
+  source       = "../../modules/nsg"
+  project_name = var.project_name        # add this
+  environment  = var.environment         # add this
+  nsg_name     = var.nsg_name
+  nsg_rules    = var.nsg_rules
+  location     = var.location
+  rg_name      = module.resource_group.rg_name
+  tags         = var.tags
+}
