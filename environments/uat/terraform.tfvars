@@ -70,3 +70,5 @@ private_dns_zone_name   = "rapidrore-uat.private"
 
 #loganalytics module variable
 workspace_name = "rapidrore-uat-law"
+#storage account module variable
+storage_account_name = "rapidroreuatstorage"

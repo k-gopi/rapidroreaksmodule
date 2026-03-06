@@ -73,3 +73,16 @@ module "log_analytics" {
 
   tags           = var.tags
 }
+
+module "storage_account" {
+  source = "../../modules/storage_account"
+
+  project_name         = var.project_name
+  environment          = var.environment
+  storage_account_name = var.storage_account_name
+
+  location = var.location
+  rg_name  = module.resource_group.rg_name
+
+  tags = var.tags
+}
