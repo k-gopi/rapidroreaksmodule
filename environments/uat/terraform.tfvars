@@ -79,3 +79,7 @@ storage_account_name = "rapidroreuatstorage"
 # managed identity module variable
 
 identity_name = "rapidrore-uat-identity"
+
+# acr module variable
+
+acr_name = "rapidroreuatacr"

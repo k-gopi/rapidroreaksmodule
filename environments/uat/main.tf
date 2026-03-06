@@ -100,3 +100,20 @@ module "managed_identity" {
 
   tags = var.tags
 }
+
+module "acr" {
+
+  source = "../../modules/acr"
+
+  project_name = var.project_name
+  environment  = var.environment
+
+  acr_name = var.acr_name
+
+  location = var.location
+  rg_name  = module.resource_group.rg_name
+
+  identity_principal_id = module.managed_identity.identity_principal_id
+
+  tags = var.tags
+}

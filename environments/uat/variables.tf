@@ -90,3 +90,7 @@ variable "storage_account_name" {
 variable "identity_name" {
   type = string
 }
+
+variable "acr_name" {
+  type = string
+}
