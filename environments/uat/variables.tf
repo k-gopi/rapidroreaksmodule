@@ -87,3 +87,6 @@ variable "workspace_name" {
 variable "storage_account_name" {
   type = string
 }
+variable "identity_name" {
+  type = string
+}

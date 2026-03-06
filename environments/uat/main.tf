@@ -86,3 +86,17 @@ module "storage_account" {
 
   tags = var.tags
 }
+
+module "managed_identity" {
+
+  source = "../../modules/managed_identity"
+
+  project_name  = var.project_name
+  environment   = var.environment
+  identity_name = var.identity_name
+
+  location = var.location
+  rg_name  = module.resource_group.rg_name
+
+  tags = var.tags
+}

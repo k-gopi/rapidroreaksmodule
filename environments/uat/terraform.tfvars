@@ -65,10 +65,17 @@ nsg_rules = [
 route_table_name = "rapidrore-uat-rt"
 
 # Private DNS module variables
-# Private DNS module variables
+
 private_dns_zone_name   = "rapidrore-uat.private"
 
-#loganalytics module variable
+# loganalytics module variable
+
 workspace_name = "rapidrore-uat-law"
-#storage account module variable
+
+# storage account module variable
+
 storage_account_name = "rapidroreuatstorage"
+
+# managed identity module variable
+
+identity_name = "rapidrore-uat-identity"
