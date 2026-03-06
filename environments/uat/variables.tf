@@ -94,3 +94,16 @@ variable "identity_name" {
 variable "acr_name" {
   type = string
 }
+variable "tenant_id" {
+  type      = string
+  sensitive = true
+}
+
+variable "object_id" {
+  type      = string
+  sensitive = true
+}
+variable "kv_name" {
+  description = "Name of the Key Vault"
+  type        = string
+}

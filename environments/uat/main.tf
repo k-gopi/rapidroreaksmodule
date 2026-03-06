@@ -117,3 +117,14 @@ module "acr" {
 
   tags = var.tags
 }
+
+module "keyvault" {
+  source   = "../../modules/keyvault"
+
+  kv_name   = var.kv_name          # from terraform.tfvars
+  rg_name   = var.rg_name
+  location  = var.location
+  tenant_id = var.tenant_id        # from environment variable TF_VAR_tenant_id
+  object_id = var.object_id        # from environment variable TF_VAR_object_id
+  tags      = var.tags
+}

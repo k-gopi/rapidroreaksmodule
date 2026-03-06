@@ -83,3 +83,6 @@ identity_name = "rapidrore-uat-identity"
 # acr module variable
 
 acr_name = "rapidroreuatacr"
+
+# keyvault module variable
+kv_name = "rapidrore-uat-kv"
