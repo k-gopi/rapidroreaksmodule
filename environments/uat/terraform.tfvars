@@ -9,6 +9,16 @@ tags = {
   Application = "AKS"
 }
 
+# VNet
 vnet_name     = "rapidrore-uat-vnet"
 address_space = ["10.0.0.0/16"]
 dns_servers   = []
+
+# Subnets
+subnets = [
+  { name = "aks-subnet",       address_prefix = "10.0.0.0/24" },
+  { name = "app-subnet",       address_prefix = "10.0.1.0/24" },
+  { name = "db-subnet",        address_prefix = "10.0.2.0/24" },
+  { name = "bastion-subnet",   address_prefix = "10.0.3.0/27" },
+  { name = "firewall-subnet",  address_prefix = "10.0.4.0/26" }
+]

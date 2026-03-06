@@ -15,3 +15,11 @@ module "vnet" {
   resource_group_name = module.resource_group.rg_name
   tags                = var.tags
 }
+module "subnets" {
+  source              = "../../modules/subnets"
+  resource_group_name = module.resource_group.rg_name
+  location            = var.location
+  vnet_name           = module.vnet.vnet_name
+  subnets             = var.subnets
+  tags                = var.tags
+}
